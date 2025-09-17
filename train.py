@@ -3,7 +3,12 @@ import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader, random_split
 from model import NeuralNetwork
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+elif torch.backends.mps.is_available():
+    device = torch.device("mps")
+else:
+    device = torch.device("cpu")
 
 model = NeuralNetwork().to(device)
 loss_fn = nn.CrossEntropyLoss()
